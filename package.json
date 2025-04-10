@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/Rival-05/simple-chat-application/issues"
   },
-  "homepage": "https://github.com/Rival-05/simple-chat-application#readme"
+  "homepage": "https://github.com/Rival-05/simple-chat-application#readme",
+  "dependencies": {
+    "@types/websocket": "^1.0.10",
+    "websocket": "^1.0.35"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0"
+  }
 }
