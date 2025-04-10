@@ -1,0 +1,20 @@
+{
+  "name": "chat-application",
+  "version": "1.0.0",
+  "description": "- Admin can allow users to join and send messages in a room.\r - Users can upvote a message.\r - More that 3 upvotes, move them to a separate section.\r - More than 10 upvotes, Alert admin to answer the question.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rival-05/simple-chat-application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rival-05/simple-chat-application/issues"
+  },
+  "homepage": "https://github.com/Rival-05/simple-chat-application#readme"
+}
