@@ -1,10 +1,10 @@
-import { Chat, Store, UserId } from "./store/Store";
+import { Chat, Store, UserId } from "./Store";
 let globalChatId = 0;
 export interface Room{
     roomId : string;
     chats : Chat[];
 }
-export abstract class InMemory implements Store{
+export class InMemoryStore implements Store{
     private store : Map<string, Room>;
     constructor(){
         this.store = new Map<string, Room>;
@@ -25,15 +25,17 @@ export abstract class InMemory implements Store{
     addChat(userId: UserId,name: string, roomId : string, message : string){
         const room = this.store.get(roomId);
         if(!room){
-            return;
+            return null;
         }
-        room.chats.push({
+        const chat = {
             id : (globalChatId++).toString(),
             userId,
             name ,
             message,
             upvotes :[]
-        })
+        }
+        room.chats.push(chat);
+        return chat;
     }
     upvote(userId : UserId, roomId: string, chatId: string){
         const room = this.store.get(roomId);
@@ -42,8 +44,9 @@ export abstract class InMemory implements Store{
         }
         const chat = room.chats.find(({id}) => id === chatId);
         if(chat){
-            return chat.upvotes.push(userId);
+            chat.upvotes.push(userId);
         }
+        return chat;
     }
 
 }

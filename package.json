@@ -19,7 +19,8 @@
   "homepage": "https://github.com/Rival-05/simple-chat-application#readme",
   "dependencies": {
     "@types/websocket": "^1.0.10",
-    "websocket": "^1.0.35"
+    "websocket": "^1.0.35",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@types/node": "^22.14.0"
