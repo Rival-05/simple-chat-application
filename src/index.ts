@@ -19,7 +19,7 @@ const store = new InMemoryStore();
 
 const wsServer = new WebSocketServer({
     httpServer: server,
-    autoAcceptConnections: true
+    autoAcceptConnections: false
 });
 
 function originIsAllowed(origin: string) {
@@ -28,6 +28,7 @@ function originIsAllowed(origin: string) {
 }
 
 wsServer.on('request', function(request) {
+    console.log("inside connect.")
     if (!originIsAllowed(request.origin)) {
       // Make sure we only accept requests from an allowed origin
       request.reject();
@@ -38,10 +39,12 @@ wsServer.on('request', function(request) {
     var connection = request.accept('echo-protocol', request.origin);
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function(message) {
+        console.log(message);
         //Todo add rate limiting logic here.
         if (message.type === 'utf8') {
             try{
                 messageHandler(connection,JSON.parse(message.utf8Data))
+                messageHandler(connection , JSON.parse(message.utf8Data));
             }catch(e){
             }
         }

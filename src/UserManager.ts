@@ -53,8 +53,8 @@ export class UserManager{
             console.error("Room not found.")
             return;
         }
-
         rooms.users.forEach(({conn}) => {
+            console.log("outgoing message" + JSON.stringify(message));
             conn.sendUTF(JSON.stringify(message))
         })
     }
