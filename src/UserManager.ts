@@ -1,5 +1,6 @@
 import { OutgoingMessage } from "./messages/outgoingMessages";
 import { stringify } from "querystring";
+import { idText } from "typescript";
 import { connection } from "websocket";
 
 interface User{
@@ -29,6 +30,9 @@ export class UserManager{
             Id : userId,
             conn :socket
         })
+        socket.on('close', (reasonCode, description) => {
+            this.removeUser(roomId,userId);
+        });
     }
     getUser(userId : string , roomId : string) : User | null{
         const user = this.rooms.get(roomId)?.users.find(({Id}) => Id === userId);
@@ -36,6 +40,7 @@ export class UserManager{
     }
 
     removeUser(userId : string , roomId : string){
+        console.log("User Removed."); 
         const users = this.rooms.get(roomId)?.users;
         if(users){
             users.filter(({Id}) => Id !== userId);
@@ -53,7 +58,10 @@ export class UserManager{
             console.error("Room not found.")
             return;
         }
-        rooms.users.forEach(({conn}) => {
+        rooms.users.forEach(({conn,Id}) => {
+            if(Id === userId){
+                return;
+            }
             console.log("outgoing message" + JSON.stringify(message));
             conn.sendUTF(JSON.stringify(message))
         })

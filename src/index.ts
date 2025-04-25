@@ -35,7 +35,6 @@ wsServer.on('request', function(request) {
       console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
       return;
     }
-    
     var connection = request.accept('echo-protocol', request.origin);
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function(message) {
@@ -44,13 +43,9 @@ wsServer.on('request', function(request) {
         if (message.type === 'utf8') {
             try{
                 messageHandler(connection,JSON.parse(message.utf8Data))
-                messageHandler(connection , JSON.parse(message.utf8Data));
             }catch(e){
             }
         }
-    });
-    connection.on('close', function(reasonCode, description) {
-        console.log((new Date()) + ' Peer ' + connection.remoteAddress + ' disconnected.');
     });
 });
 
