@@ -23,14 +23,13 @@ const wsServer = new WebSocketServer({
 });
 
 function originIsAllowed(origin: string) {
-  // put logic here to detect whether the specified origin is allowed.
   return true;
 }
 
 wsServer.on('request', function(request) {
     console.log("inside connect.")
     if (!originIsAllowed(request.origin)) {
-      // Make sure we only accept requests from an allowed origin
+
       request.reject();
       console.log((new Date()) + ' Connection from origin ' + request.origin + ' rejected.');
       return;
@@ -38,8 +37,7 @@ wsServer.on('request', function(request) {
     var connection = request.accept('echo-protocol', request.origin);
     console.log((new Date()) + ' Connection accepted.');
     connection.on('message', function(message) {
-        console.log(message);
-        //Todo add rate limiting logic here.
+
         if (message.type === 'utf8') {
             try{
                 messageHandler(connection,JSON.parse(message.utf8Data))
@@ -55,9 +53,10 @@ function messageHandler(ws : connection, message : IncomingMessages ){
         userManager.addUser(payload.name, payload.userId, payload.roomId, ws)
     }
     
-    if(message.type == SupportedMessage.SEND_MESSAGE){
+    if(message.type === SupportedMessage.SEND_MESSAGE){
         const payload = message.payload;
         const user = userManager.getUser(payload.userId , payload.roomId);
+
         if(!user){
             console.error("User not found.")
             return;
@@ -66,7 +65,7 @@ function messageHandler(ws : connection, message : IncomingMessages ){
         if(!chat){
             return;
         }
-        const OutgoingPayload = {
+        const OutgoingPayload : OutgoingMessage = {
             type : OutgoingSupportedMessage.AddChat,
             payload: {
                 chatId : chat.id,

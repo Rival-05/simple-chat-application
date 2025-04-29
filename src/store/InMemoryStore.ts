@@ -1,9 +1,11 @@
 import { Chat, Store, UserId } from "./Store";
 let globalChatId = 0;
+
 export interface Room{
     roomId : string;
     chats : Chat[];
 }
+
 export class InMemoryStore implements Store{
     private store : Map<string, Room>;
     constructor(){
@@ -47,6 +49,9 @@ export class InMemoryStore implements Store{
         }
         const chat = room.chats.find(({id}) => id === chatId);
         if(chat){
+            if(chat.upvotes.find(x => x === userId)){
+                return chat;
+            }
             chat.upvotes.push(userId);
         }
         return chat;
